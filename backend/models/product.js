@@ -9,38 +9,38 @@ const productSchema = new mongoose.Schema({
   },
 
   price: {
-    type: number,
+    type: Number,
     default: 0.0,
     required: [true, "Please Insert product price"],
     maxLength: [5, "Product price cant be exceed more than 5 character"],
   },
 
   description: {
-    type: string,
+    type: String,
     required: [true, "Please Insert product des"],
   },
 
   ratings: {
-    type: number,
+    type: Number,
     default: 0.0,
   },
 
-  image: [
+  images: [
     {
       public_id: {
-        type: string,
+        type: String,
         required: true,
       },
 
       url: {
-        type: string,
+        type: String,
         required: true,
       },
     },
   ],
 
   category: {
-    type: string,
+    type: String,
     required: [true, "Please Insert category"],
     enum: {
       values: [
@@ -58,34 +58,34 @@ const productSchema = new mongoose.Schema({
   },
 
   seller: {
-    type: string,
+    type: String,
     required: [true, "Please enter seller info"],
   },
 
   stock: {
-    type: number,
+    type: Number,
     required: [true, "Please enter product stock"],
     maxLength: [20, "Product stock should not exceed 20"],
   },
 
   numOfReviews: {
-    type: number,
+    type: Number,
     default: 0,
   },
 
   reviews: [
     {
       name: {
-        type: string,
+        type: String,
         required: true,
       },
 
       rating: {
-        type: number,
+        type: Number,
         required: true,
       },
       comment: {
-        type: string,
+        type: String,
         required: true,
       },
     },
@@ -97,4 +97,4 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-module.exports = productSchema;
+module.exports = mongoose.model("Product", productSchema);

@@ -2,10 +2,18 @@ const express = require("express");
 const router = express.Router();
 
 //fetch getProducts from product controller
-const { getProducts } = require("../controller/productcontroller");
+const {
+  getProducts,
+  newProduct,
+  getSingleProduct,
+  updateProduct,
+} = require("../controller/productcontroller");
 
 //get product
 
 router.route("/products").get(getProducts);
+router.route("/admin/product/new").post(newProduct);
+router.route("/product/:id").get(getSingleProduct);
+router.route("/admin/product/:id").put(updateProduct);
 
 module.exports = router;
