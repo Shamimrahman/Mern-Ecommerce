@@ -1,4 +1,5 @@
 const Product = require("../models/product");
+const errorHandler = require("../utils/errorHandler");
 
 //create new product in /api/v1/admin/product/new
 exports.newProduct = async (req, res, next) => {
@@ -27,10 +28,7 @@ exports.getSingleProduct = async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: "Product not found",
-    });
+    return next(new errorHandler("Product not found", 404));
   }
 
   res.status(200).json({
@@ -39,7 +37,7 @@ exports.getSingleProduct = async (req, res, next) => {
   });
 };
 
-//update product
+//update product in /api/v1/admin/product/:id
 
 exports.updateProduct = async (req, res, next) => {
   let product = await Product.findById(req.params.id);
@@ -60,5 +58,23 @@ exports.updateProduct = async (req, res, next) => {
   res.status(202).json({
     success: true,
     product,
+  });
+};
+
+//delete product in /api/v1/admin/product/:id
+
+exports.deleteProduct = async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  if (!product) {
+    return res.status(404).json({
+      success: false,
+      message: "Product not found",
+    });
+  }
+
+  await Product.remove();
+  res.status(202).json({
+    success: true,
+    message: "Product deleted sucessfully",
   });
 };
