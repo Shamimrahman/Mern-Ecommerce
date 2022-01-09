@@ -8,6 +8,8 @@ const asyncCatchError = require("../middlewares/asyncCatchError");
 
 //create new product in /api/v1/admin/product/new
 
+const ApiFeatures = require("../utils/apiFeatures");
+
 exports.newProduct = asyncCatchError(async (req, res, next) => {
   const product = await Product.create(req.body);
   res.status(201).json({
@@ -16,10 +18,15 @@ exports.newProduct = asyncCatchError(async (req, res, next) => {
   });
 });
 
-//get all product from api/v1/products
+//get all product from api/v1/products?keyword=apple&price[gte]=1&price[lte]=200000
 //use getproducts in routes
 exports.getProducts = asyncCatchError(async (req, res, next) => {
-  const products = await Product.find();
+  //product search
+  const apiFeatures = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter();
+
+  const products = await apiFeatures.query;
 
   res.status(200).json({
     success: true,
