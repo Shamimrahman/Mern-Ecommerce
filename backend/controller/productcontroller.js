@@ -22,9 +22,18 @@ exports.newProduct = asyncCatchError(async (req, res, next) => {
 //use getproducts in routes
 exports.getProducts = asyncCatchError(async (req, res, next) => {
   //product search
+
+  //pagination
+
+  const resPerPage = 4;
+
+  //fronted pagination
+  const productCount = await Product.countDocuments();
   const apiFeatures = new ApiFeatures(Product.find(), req.query)
+
     .search()
-    .filter();
+    .filter()
+    .pagination(resPerPage);
 
   const products = await apiFeatures.query;
 
@@ -32,6 +41,7 @@ exports.getProducts = asyncCatchError(async (req, res, next) => {
     success: true,
     count: products.length,
     products,
+    productCount,
   });
 });
 
