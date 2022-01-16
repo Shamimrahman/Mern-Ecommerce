@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please Enter Your mail"],
     unique: true,
-    validate: [validator.ismail, "Please Enter Valid Mail Address"],
+    validate: [validator.isEmail, "Please Enter Valid Mail Address"],
   },
 
   password: {
@@ -25,12 +25,12 @@ const userSchema = new mongoose.Schema({
   avatar: {
     public_id: {
       type: String,
-      required: true,
+      //required: true,
     },
 
     url: {
       type: String,
-      required: true,
+      //required: true,
     },
   },
 
