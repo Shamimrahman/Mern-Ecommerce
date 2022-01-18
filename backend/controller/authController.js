@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/asyncCatchError");
+const sendToken = require("../utils/jwtToken");
 
 //register a user=>/api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
@@ -16,12 +17,10 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     },
   });
 
-  const token = user.getJwtToken();
-
-  res.status(201).json({
-    success: true,
-    token,
-  });
+  //store jwt in httponly because jdi amra local storage save kori
+  //tahole js code diye easily excess korte parbo
+  //so amra utils a jwt er functionality likhbo
+  sendToken(user, 200, res);
 });
 
 //user login on=> /api/v1/login
@@ -48,11 +47,17 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Invalid email or password", 401));
   }
 
-  //generate token
-  const token = user.getJwtToken();
+  //otherwise generate token
+  //const token = user.getJwtToken();
 
-  res.status(201).json({
-    success: "true",
-    token,
-  });
+  //res.status(201).json({
+  //success: "true",
+  //token,
+  //});
+
+  //store jwt in httponly because jdi amra local storage save kori
+  //tahole js code diye easily excess korte parbo
+  //so amra utils a jwt er functionality likhbo
+
+  sendToken(user, 200, res);
 });
