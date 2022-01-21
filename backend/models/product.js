@@ -91,6 +91,14 @@ const productSchema = new mongoose.Schema({
     },
   ],
 
+  //adding user in product
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+    //thn productController=>req.body.user = req.user.id;
+  },
+
   creatAt: {
     type: Date,
     default: Date.now,
