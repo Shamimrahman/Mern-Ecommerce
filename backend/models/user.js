@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
   },
 
   resetPasswordToken: String,
-  resetpasswordExpire: Date,
+  resetPasswordExpire: Date,
 });
 
 //password encryption before save
@@ -68,6 +68,23 @@ userSchema.methods.getJwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_TIME,
   });
+};
+
+//recovery password mail send to user when he forget the password
+userSchema.methods.getResetPasswordToken = function () {
+  //generate token
+  const resetToken = crypto.randomBytes(20).toString("hex");
+
+  //hash and set to resetpassword token
+  this.resetPasswordToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+
+  //set token expires time
+  this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
+
+  return resetToken;
 };
 
 module.exports = mongoose.model("user", userSchema);
