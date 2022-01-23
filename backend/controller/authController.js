@@ -70,18 +70,20 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
   //get reset token
   const resetToken = user.getResetPasswordToken();
 
-  //create reset password url
+  //reset password token save to user
+  await user.save({ validateBeforeSave: false });
 
+  //create reset password url
   const resetUrl = `${req.protocol}://${req.get(
     "host"
   )}/api/v1/password/reset/${resetToken}`;
 
-  const message = `your password reset token is as follow:\n\n${resetUrl}\n\n If you have not requested this email, then ignore it`;
+  const message = `your password reset token is as follow:\n\n${resetUrl}\n\n If you have not requested this email, then ignore it.`;
 
   try {
     await sendEmail({
       email: user.email,
-      subject: "ShopIT Password Recovery",
+      subject: "ShopIT Password Recovery.",
       message,
     });
 
