@@ -2,7 +2,7 @@ const User = require("../models/user");
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncError = require("../middlewares/asyncCatchError");
 const sendToken = require("../utils/jwtToken");
-
+const sendEmail = require("../utils/sendEmail");
 //register a user=>/api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -26,7 +26,6 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
 //user login on=> /api/v1/login
 exports.loginUser = catchAsyncError(async (req, res, next) => {
   const { email, password } = req.body;
-
   //check if email and password is entered by user
 
   if (!email || !password) {
@@ -62,8 +61,43 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-//logout part =>api/v1/logout
+//password recovery at=> api/v1/password/forgot
+exports.forgotPassword = catchAsyncError(async (req, res, next) => {
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new ErrorHandler("User not found with this mail", 404));
+  }
+  //get reset token
+  const resetToken = user.getResetPasswordToken();
 
+  //create reset password url
+
+  const resetUrl = `${req.protocol}://${req.get(
+    "host"
+  )}/api/v1/password/reset/${resetToken}`;
+
+  const message = `your password reset token is as follow:\n\n${resetUrl}\n\n If you have not requested this email, then ignore it`;
+
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "ShopIT Password Recovery",
+      message,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `Email sent to ${user.email}`,
+    });
+  } catch (error) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(new ErrorHandler(error.message, 500));
+  }
+});
+
+//logout part =>api/v1/logout
 exports.logout = catchAsyncError(async (req, res, next) => {
   res.cookie("token", null, {
     expires: new Date(Date.now()),
