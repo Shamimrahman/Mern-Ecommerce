@@ -1,3 +1,4 @@
+const ErrorHandler = require("../utils/errorHandler");
 const errorHandler = require("../utils/errorHandler");
 
 module.exports = (err, req, res, next) => {
@@ -26,6 +27,26 @@ module.exports = (err, req, res, next) => {
     //Handling Mongoose Validation Error
     if (err.name === "validationError") {
       const message = Object.values(err.errors).map((value) => value.message);
+      error = new ErrorHandler(message, 400);
+    }
+
+    //handling mongoose duplicate key errors
+    if (err.code === 11000) {
+      const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
+      error = new ErrorHandler(message, 400);
+    }
+
+    //handling wrong jwt error
+
+    if (err.name === "JsonWebTokenError") {
+      const message = "Json Web token is invalid. Try Again!";
+      error = new ErrorHandler(message, 400);
+    }
+
+    //handling expired jwt error
+
+    if (err.name === "TokenExpiredError") {
+      const message = "Json Web token has been expired. Try Again!";
       error = new ErrorHandler(message, 400);
     }
 
