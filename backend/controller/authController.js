@@ -155,9 +155,6 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
     return next(new ErrorHandler("Old Password is Incorrect"));
   }
 
-  user.password = req.body.password;
-  await user.save();
-
   if (req.body.oldPassword === req.body.password) {
     return next(
       new ErrorHandler(
@@ -166,7 +163,29 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
     );
   }
 
+  user.password = req.body.password;
+  await user.save();
+
   sendToken(user, 200, res);
+});
+
+//update user profile => api/v1/me/update
+exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
+  const newUserInfo = {
+    name: req.body.name,
+    email: req.body.email,
+  };
+
+  //update avatar:TODO
+  const user = await User.findByIdAndUpdate(req.user.id, newUserInfo, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
 });
 
 //logout part =>api/v1/logout

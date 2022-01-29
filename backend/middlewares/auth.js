@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 exports.isAuthenticatedUser = asyncCatchError(async (req, res, next) => {
   const { token } = req.cookies;
   if (!token) {
-    return next(new ErrorHandler("Login first to access the resourse", 401));
+    return next(new ErrorHandler("Login first to access the resource", 401));
   }
 
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
