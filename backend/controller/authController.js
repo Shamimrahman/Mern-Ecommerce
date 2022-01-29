@@ -101,7 +101,6 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
 });
 
 //password reset at-=> api/v1/password/reset/:token
-
 exports.resetPassword = catchAsyncError(async (req, res, next) => {
   //hash url token
   const resetPasswordToken = crypto
@@ -132,6 +131,41 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
   (user.resetPasswordToken = undefined), (user.resetPasswordExpire = undefined);
 
   await user.save();
+  sendToken(user, 200, res);
+});
+
+//get logined user info => api/v1/me
+exports.getUserProfile = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id);
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+//update password at=> api/v1/password/update
+exports.updatePassword = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.user.id).select("+password");
+
+  //check previous password
+  const isMatched = await user.comparePassword(req.body.oldPassword);
+
+  if (!isMatched) {
+    return next(new ErrorHandler("Old Password is Incorrect"));
+  }
+
+  user.password = req.body.password;
+  await user.save();
+
+  if (req.body.oldPassword === req.body.password) {
+    return next(
+      new ErrorHandler(
+        "You entered your previous password. Please choose another Password!"
+      )
+    );
+  }
+
   sendToken(user, 200, res);
 });
 
