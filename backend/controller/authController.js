@@ -200,3 +200,9 @@ exports.logout = catchAsyncError(async (req, res, next) => {
     message: "Logged out",
   });
 });
+
+//admin routes
+
+//admin get all user
+
+exports.getAllUsers = catchAsyncError(async (req, res, next) => {});
