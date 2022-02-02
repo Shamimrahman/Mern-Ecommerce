@@ -204,5 +204,28 @@ exports.logout = catchAsyncError(async (req, res, next) => {
 //admin routes
 
 //admin get all user
+// aluser=> api/v1/admin/users
+exports.getAllUsers = catchAsyncError(async (req, res, next) => {
+  const user = await User.find();
 
-exports.getAllUsers = catchAsyncError(async (req, res, next) => {});
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
+
+//get single user by admin => api/v1/admin/user/:id
+exports.getUser = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with this id: ${req.params.id}`)
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+});
