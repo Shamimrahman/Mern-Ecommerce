@@ -4,6 +4,7 @@ const catchAsyncError = require("../middlewares/asyncCatchError");
 const sendToken = require("../utils/jwtToken");
 const sendEmail = require("../utils/sendEmail");
 const crypto = require("crypto");
+const asyncCatchError = require("../middlewares/asyncCatchError");
 //register a user=>/api/v1/register
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -229,3 +230,7 @@ exports.getUser = catchAsyncError(async (req, res, next) => {
     user,
   });
 });
+
+//update user detail by admin
+
+exports.updateUser = asyncCatchError(async (req, res) => {});
