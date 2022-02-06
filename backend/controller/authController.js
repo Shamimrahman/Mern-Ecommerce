@@ -231,6 +231,41 @@ exports.getUser = catchAsyncError(async (req, res, next) => {
   });
 });
 
-//update user detail by admin
+//update user detail by admin api/v1/admin/user/:id
+exports.updateProfile = catchAsyncError(async (req, res, next) => {
+  const newUserInfo = {
+    name: req.body.name,
+    email: req.body.email,
+    role: req.body.role,
+  };
 
-exports.updateUser = asyncCatchError(async (req, res) => {});
+  //update avatar:TODO
+  const user = await User.findByIdAndUpdate(req.params.id, newUserInfo, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+//delete user details by admin api/v1/admin/user/:id
+exports.userDelete = catchAsyncError(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(`User not found with this id: ${req.params.id}`)
+    );
+  }
+
+  //remove avatar from cloudary-todo
+
+  await user.remove();
+
+  res.status(200).json({
+    success: true,
+  });
+});
