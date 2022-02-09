@@ -269,3 +269,7 @@ exports.userDelete = catchAsyncError(async (req, res, next) => {
     success: true,
   });
 });
+
+//order product
+
+exports.orderProduct = catchAsyncError(async (req, res, next) => {});
