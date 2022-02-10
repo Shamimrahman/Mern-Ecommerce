@@ -273,3 +273,4 @@ exports.userDelete = catchAsyncError(async (req, res, next) => {
 //order product
 
 exports.orderProduct = catchAsyncError(async (req, res, next) => {});
+exports.confirmOrder = catchAsyncError(async (req, res, next) => {});
