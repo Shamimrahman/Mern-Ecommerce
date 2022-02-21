@@ -13,7 +13,7 @@ const orderSchema = mongoose.Schema({
     },
 
     phoneNo: {
-      type: number,
+      type: Number,
       required: true,
     },
 
