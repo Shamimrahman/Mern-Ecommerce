@@ -75,6 +75,12 @@ const productSchema = new mongoose.Schema({
 
   reviews: [
     {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+        //thn productController=>req.body.user = req.user.id;
+      },
       name: {
         type: String,
         required: true,
@@ -92,12 +98,6 @@ const productSchema = new mongoose.Schema({
   ],
 
   //adding user in product
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: "User",
-    required: true,
-    //thn productController=>req.body.user = req.user.id;
-  },
 
   creatAt: {
     type: Date,
