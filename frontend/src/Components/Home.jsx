@@ -1,8 +1,10 @@
 import React, { Fragment } from "react";
 import "../App.css";
+import Metadata from "./layout/Metadata";
 const Home = () => {
   return (
     <Fragment>
+      <Metadata title={"Buy Best Product Online"}></Metadata>
       <div className="container container-fluid mt-5">
         <h1 className="products_heading">Latest Product</h1>
       </div>
