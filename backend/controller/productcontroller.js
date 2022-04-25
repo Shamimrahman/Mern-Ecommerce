@@ -9,6 +9,7 @@ const asyncCatchError = require("../middlewares/asyncCatchError");
 //create new product in /api/v1/admin/product/new
 
 const ApiFeatures = require("../utils/apiFeatures");
+const ErrorHandler = require("../utils/errorHandler");
 
 exports.newProduct = asyncCatchError(async (req, res, next) => {
   //adding user in product
@@ -23,8 +24,9 @@ exports.newProduct = asyncCatchError(async (req, res, next) => {
 //get all product from api/v1/products?keyword=apple&price[gte]=1&price[lte]=200000
 //use getproducts in routes
 exports.getProducts = asyncCatchError(async (req, res, next) => {
-  //product search
+  //error test for frontend react-alert
 
+  //product search
   //pagination
 
   const resPerPage = 4;
