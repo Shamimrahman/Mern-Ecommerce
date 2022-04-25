@@ -1,12 +1,16 @@
 import React, { Fragment } from "react";
 import "../../App.css";
+import { Link, List } from "react-router-dom";
 const Header = () => {
   return (
     <Fragment>
       <nav class="navbar row">
         <div class="col-12 col-md-3">
           <div class="navbar-brand">
-            <img src="./images/logo.png" />
+            <Link to="/">
+              {" "}
+              <img src="./images/logo.png" />
+            </Link>
           </div>
         </div>
 
