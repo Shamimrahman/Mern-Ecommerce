@@ -53,7 +53,7 @@ exports.getProducts = asyncCatchError(async (req, res, next) => {
   }, 200);
 });
 
-//get single product in api/v1/product
+//get single product in api/v1/product/:id
 //use Errorhandler
 
 exports.getSingleProduct = asyncCatchError(async (req, res, next) => {

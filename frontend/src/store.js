@@ -2,10 +2,14 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { productReducers } from "./reducers/productReducers";
+import {
+  productReducers,
+  productDetailsReducer,
+} from "./reducers/productReducers";
 //aikhane user reducer,order reducer gulo thakbe
 const reducer = combineReducers({
   products: productReducers,
+  productDetails: productDetailsReducer,
 });
 
 //for cart a initial state 0 thakbe

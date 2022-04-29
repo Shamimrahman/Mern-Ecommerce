@@ -8,6 +8,7 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
+import ProductDetails from "./Components/product/ProductDetails";
 
 const App = () => {
   return (
@@ -16,6 +17,10 @@ const App = () => {
 
       <Routes>
         <Route path="/" element={<Home></Home>} />
+        <Route
+          path="/product/:id"
+          element={<ProductDetails></ProductDetails>}
+        />
       </Routes>
 
       <Footer></Footer>
