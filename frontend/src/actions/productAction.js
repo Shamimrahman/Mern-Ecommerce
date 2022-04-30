@@ -7,7 +7,7 @@ import {
   PRODUCT_DETAILS_FAIL,
   CLEAR_ERRORS,
 } from "../constants/productConstants";
-
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export const getProducts = () => async (dispatch) => {

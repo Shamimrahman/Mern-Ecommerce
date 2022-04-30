@@ -4,23 +4,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, getProductDetails } from "../../actions/productAction";
 import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
-
-const ProductDetails = ({ match }) => {
+import { useParams } from "react-router-dom";
+const ProductDetails = () => {
+  //in react-router-dom v6 we need to useparams instead of match
+  const { id } = useParams();
   const dispatch = useDispatch();
-
   const alert = useAlert();
   const { loading, error, product } = useSelector(
     (state) => state.productDetails
   );
 
   useEffect(() => {
-    dispatch(getProductDetails(match.params.id));
-
+    dispatch(getProductDetails(id));
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, match]);
+  }, [dispatch, alert, error, id]);
 
   return (
     <Fragment>
@@ -28,7 +28,7 @@ const ProductDetails = ({ match }) => {
         <Loader></Loader>
       ) : (
         <Fragment>
-          <Metadata title={"Buy Best Product Online"}></Metadata>
+          <Metadata title={product.name}></Metadata>
 
           <div className="container container-fluid">
             <div className="row f-flex justify-content-around">
@@ -43,7 +43,7 @@ const ProductDetails = ({ match }) => {
 
               <div className="col-12 col-lg-5 mt-5">
                 <h3>{product.name}</h3>
-                <p id="product_id">Product # sklfjdk35fsdf5090</p>
+                <p id="product_id">Product #{product._id}</p>
 
                 <hr />
 
@@ -54,7 +54,7 @@ const ProductDetails = ({ match }) => {
 
                 <hr />
 
-                <p id="product_price">$108.00</p>
+                <p id="product_price">{product.price}</p>
                 <div className="stockCounter d-inline">
                   <span className="btn btn-danger minus">-</span>
 
@@ -84,14 +84,7 @@ const ProductDetails = ({ match }) => {
                 <hr />
 
                 <h4 className="mt-2">Description:</h4>
-                <p>
-                  Binge on movies and TV episodes, news, sports, music and more!
-                  We insisted on 720p High Definition for this 32" LED TV,
-                  bringing out more lifelike color, texture and detail. We also
-                  partnered with Roku to bring you the best possible content
-                  with thousands of channels to choose from, conveniently
-                  presented through your own custom home screen.
-                </p>
+                <p>{product.description}</p>
                 <hr />
                 <p id="product_seller mb-3">
                   Sold by: <strong>Amazon</strong>

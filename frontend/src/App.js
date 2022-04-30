@@ -10,14 +10,16 @@ import {
 } from "react-router-dom";
 import ProductDetails from "./Components/product/ProductDetails";
 
+//https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
   return (
     <div className="App">
       <Header></Header>
 
       <Routes>
-        <Route path="/" element={<Home></Home>} />
+        <Route path="/" element={<Home></Home>} exact />
         <Route
+          exact
           path="/product/:id"
           element={<ProductDetails></ProductDetails>}
         />
