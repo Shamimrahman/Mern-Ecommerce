@@ -5,6 +5,8 @@ import { clearErrors, getProductDetails } from "../../actions/productAction";
 import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
 import { useParams } from "react-router-dom";
+import { Carousel } from "react-bootstrap";
+
 const ProductDetails = () => {
   //in react-router-dom v6 we need to useparams instead of match
   const { id } = useParams();
@@ -33,12 +35,18 @@ const ProductDetails = () => {
           <div className="container container-fluid">
             <div className="row f-flex justify-content-around">
               <div className="col-12 col-lg-5 img-fluid" id="product_image">
-                <img
-                  src="https://i5.walmartimages.com/asr/1223a935-2a61-480a-95a1-21904ff8986c_1.17fa3d7870e3d9b1248da7b1144787f5.jpeg?odnWidth=undefined&odnHeight=undefined&odnBg=ffffff"
-                  alt="sdf"
-                  height="500"
-                  width="500"
-                />
+                <Carousel pause="hover">
+                  {product.images &&
+                    product.images.map((image) => (
+                      <Carousel.Item key={image.public_id}>
+                        <img
+                          className="d-block w-100"
+                          src={image.url}
+                          alt={product.title}
+                        />
+                      </Carousel.Item>
+                    ))}
+                </Carousel>
               </div>
 
               <div className="col-12 col-lg-5 mt-5">
@@ -48,9 +56,12 @@ const ProductDetails = () => {
                 <hr />
 
                 <div className="rating-outer">
-                  <div className="rating-inner"></div>
+                  <div
+                    className="rating-inner"
+                    style={{ width: `${(product.ratings / 5) * 100}%` }}
+                  ></div>
                 </div>
-                <span id="no_of_reviews">(5 Reviews)</span>
+                <span id="no_of_reviews">({product.numOfReviews} Reviews)</span>
 
                 <hr />
 
@@ -78,7 +89,15 @@ const ProductDetails = () => {
                 <hr />
 
                 <p>
-                  Status: <span id="stock_status">In Stock</span>
+                  <p>
+                    Status:{" "}
+                    <span
+                      id="stock_status"
+                      className={product.stock > 0 ? "greenColor" : "redColor"}
+                    >
+                      {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                    </span>
+                  </p>
                 </p>
 
                 <hr />
@@ -87,7 +106,7 @@ const ProductDetails = () => {
                 <p>{product.description}</p>
                 <hr />
                 <p id="product_seller mb-3">
-                  Sold by: <strong>Amazon</strong>
+                  Sold by: <strong>{product.seller}</strong>
                 </p>
 
                 <button

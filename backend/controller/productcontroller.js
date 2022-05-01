@@ -28,8 +28,7 @@ exports.getProducts = asyncCatchError(async (req, res, next) => {
 
   //product search
   //pagination
-
-  const resPerPage = 4;
+  const resPerPage = 8;
 
   //fronted pagination
   const productCount = await Product.countDocuments();
