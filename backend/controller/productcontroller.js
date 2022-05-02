@@ -28,7 +28,7 @@ exports.getProducts = asyncCatchError(async (req, res, next) => {
 
   //product search
   //pagination
-  const resPerPage = 8;
+  const resPerPage = 4;
 
   //fronted pagination
   const productCount = await Product.countDocuments();
@@ -48,6 +48,7 @@ exports.getProducts = asyncCatchError(async (req, res, next) => {
       count: products.length,
       products,
       productCount,
+      resPerPage,
     });
   }, 200);
 });
