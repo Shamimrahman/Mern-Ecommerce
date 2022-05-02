@@ -14,16 +14,18 @@ import ProductDetails from "./Components/product/ProductDetails";
 const App = () => {
   return (
     <div className="App">
-      <Header></Header>
+      <Router>
+        <div className="App">
+          <Header />
+          <div className="container container-fluid">
+            <Route path="/" component={Home} exact />
+            <Route path="/search/:keyword" component={Home} />
+            <Route path="/product/:id" component={ProductDetails} exact />
+          </div>
 
-      <Routes>
-        <Route path="/" element={<Home></Home>} exact />
-        <Route
-          exact
-          path="/product/:id"
-          element={<ProductDetails></ProductDetails>}
-        />
-      </Routes>
+          <Footer />
+        </div>
+      </Router>
 
       <Footer></Footer>
     </div>
