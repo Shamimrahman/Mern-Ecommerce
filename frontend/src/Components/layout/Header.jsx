@@ -19,9 +19,9 @@ const Header = () => {
           <Route render={({ history }) => <Search history={history} />} />
         </div>
         <div class="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <button class="btn" id="login_btn">
+          <Link to="/login" class="btn" id="login_btn">
             Login
-          </button>
+          </Link>
 
           <span id="cart" class="ml-3">
             Cart

@@ -8,12 +8,15 @@ import Product from "./product/Product";
 import Loader from "./layout/Loader";
 import { useAlert } from "react-alert";
 import Pagination from "react-js-pagination";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const Home = ({ match }) => {
   //alert er functionality index.js a
   const alert = useAlert();
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
+  const [price, setPrice] = useState([1, 100000]);
 
   const { loading, products, error, productsCount, resPerPage } = useSelector(
     (state) => state.products
@@ -26,8 +29,8 @@ const Home = ({ match }) => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts(currentPage, keyword));
-  }, [dispatch, alert, error, currentPage, keyword]);
+    dispatch(getProducts(currentPage, keyword, price));
+  }, [dispatch, alert, error, currentPage, keyword, price]);
 
   //pagination
   function setCurrentPageNo(pageNumber) {

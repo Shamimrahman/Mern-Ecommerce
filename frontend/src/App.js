@@ -9,6 +9,7 @@ import {
   Switch,
 } from "react-router-dom";
 import ProductDetails from "./Components/product/ProductDetails";
+import Login from "./Components/User/Login";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/" component={Home} exact />
             <Route path="/search/:keyword" component={Home} />
             <Route path="/product/:id" component={ProductDetails} exact />
+            <Route path="/login" component={Login} exact />
           </div>
 
           <Footer />
