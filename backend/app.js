@@ -4,19 +4,18 @@ const errorMiddleware = require("./middlewares/errors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cloudinary = require("cloudinary");
-app.use(express.json());
+const fileUpload = require("express-fileupload");
 
+// Setting up config file
+if (process.env.NODE_ENV !== "PRODUCTION")
+  require("dotenv").config({ path: "backend/config/config.env" });
+
+app.use(express.json());
 //for cloudarniy
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-//cludinary for images
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  cloud_api_key: process.env.CLOUDINARY_API_KEY,
-  cloud_api_secretkey: process.env.CLOUDINARY_API_SECRATE,
-});
+app.use(fileUpload());
+const path = require("path");
 
 //import all routes
 const products = require("./routes/product");

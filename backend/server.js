@@ -1,8 +1,8 @@
 const app = require("./app");
 const dotenv = require("dotenv");
 const connectDatabase = require("./config/database");
-//settingup config file
-dotenv.config({ path: "backend/config/config.env" });
+
+const cloudinary = require("cloudinary");
 
 //uncaught Exception handler
 process.on("uncaughtException", (err) => {
@@ -11,9 +11,18 @@ process.on("uncaughtException", (err) => {
   process.exit(1);
 });
 
+//settingup config file
+dotenv.config({ path: "backend/config/config.env" });
+
 //mongodb connection
 connectDatabase();
 
+//cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 //console.log(a)=>it will show uncaughtException
 //running port
 const server = app.listen(process.env.PORT, () => {

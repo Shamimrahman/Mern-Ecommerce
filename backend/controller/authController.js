@@ -14,21 +14,19 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     width: 150,
     crop: "scale",
   });
+
   const { name, email, password } = req.body;
+
   const user = await User.create({
     name,
     email,
     password,
-
     avatar: {
       public_id: result.public_id,
       url: result.secure_url,
     },
   });
 
-  //store jwt in httponly because jdi amra local storage save kori
-  //tahole js code diye easily excess korte parbo
-  //so amra utils a jwt er functionality likhbo
   sendToken(user, 200, res);
 });
 
