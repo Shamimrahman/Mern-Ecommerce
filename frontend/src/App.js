@@ -13,6 +13,8 @@ import Login from "./Components/User/Login";
 import Register from "./Components/User/Register";
 import store from "./store";
 import { loadUser } from "./actions/userAction";
+import Profile from "./Components/User/Profile";
+import ProtectRoute from "./Components/route/ProtectRoute";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -32,6 +34,7 @@ const App = () => {
             <Route path="/register" component={Register} exact />
 
             <Route path="/login" component={Login} exact />
+            <ProtectRoute path="/me" component={Profile} exact />
           </div>
 
           <Footer />
