@@ -7,12 +7,13 @@ import {
   productDetailsReducer,
 } from "./reducers/productReducers";
 
-import { authReducer } from "./reducers/userReducer";
+import { authReducer, userReducer } from "./reducers/userReducer";
 //aikhane user reducer,order reducer gulo thakbe
 const reducer = combineReducers({
   products: productReducers,
   productDetails: productDetailsReducer,
   auth: authReducer,
+  user: userReducer,
 });
 
 //for cart a initial state 0 thakbe

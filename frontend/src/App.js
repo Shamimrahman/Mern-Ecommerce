@@ -15,6 +15,7 @@ import store from "./store";
 import { loadUser } from "./actions/userAction";
 import Profile from "./Components/User/Profile";
 import ProtectRoute from "./Components/route/ProtectRoute";
+import UpdateProfile from "./Components/User/UpdateProfile";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -35,6 +36,7 @@ const App = () => {
 
             <Route path="/login" component={Login} exact />
             <ProtectRoute path="/me" component={Profile} exact />
+            <Route path="/me/update" component={UpdateProfile} exact />
           </div>
 
           <Footer />
