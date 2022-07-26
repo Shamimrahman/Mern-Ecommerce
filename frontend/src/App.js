@@ -17,6 +17,7 @@ import Profile from "./Components/User/Profile";
 import ProtectRoute from "./Components/route/ProtectRoute";
 import UpdateProfile from "./Components/User/UpdateProfile";
 import UpdatePassword from "./Components/User/UpdatePassword";
+import ForgotPassword from "./Components/User/ForgotPassword";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -43,6 +44,7 @@ const App = () => {
               component={UpdatePassword}
               exact
             />
+            <Route path="/password/forgot" component={ForgotPassword} exact />
           </div>
         </div>
       </Router>
