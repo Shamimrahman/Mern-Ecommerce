@@ -19,6 +19,7 @@ import UpdateProfile from "./Components/User/UpdateProfile";
 import UpdatePassword from "./Components/User/UpdatePassword";
 import ForgotPassword from "./Components/User/ForgotPassword";
 import { RePassword } from "./Components/User/RePassword";
+import Cart from "./Cart/Cart";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -38,6 +39,10 @@ const App = () => {
             <Route path="/register" component={Register} exact />
 
             <Route path="/login" component={Login} exact />
+            <Route path="/password/forgot" component={ForgotPassword} exact />
+            <Route path="/password/reset/:token" component={RePassword} exact />
+            <Route path="/cart" component={Cart} exact />
+
             <ProtectRoute path="/me" component={Profile} exact />
             <ProtectRoute path="/me/update" component={UpdateProfile} exact />
             <ProtectRoute
@@ -45,8 +50,6 @@ const App = () => {
               component={UpdatePassword}
               exact
             />
-            <Route path="/password/forgot" component={ForgotPassword} exact />
-            <Route path="/password/reset/:token" component={RePassword} exact />
           </div>
         </div>
       </Router>
