@@ -1,13 +1,29 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart } from "../actions/cartAction";
+import { addItemToCart, RemoveItemFromCart } from "../actions/cartAction";
 import Metadata from "../Components/layout/Metadata";
 
 const Cart = () => {
   const dispatch = useDispatch();
 
   const { cartItems } = useSelector((state) => state.cart);
+
+  const increaseQty = (id, quantity, stock) => {
+    const newQty = quantity + 1;
+    if (newQty > stock) return;
+    dispatch(addItemToCart(id, newQty));
+  };
+
+  const decreaseQty = (id, quantity) => {
+    const newQty = quantity - 1;
+    if (newQty <= 0) return;
+    dispatch(addItemToCart(id, newQty));
+  };
+
+  const removeCartItemHandler = (id) => {
+    dispatch(RemoveItemFromCart(id));
+  };
 
   return (
     <Fragment>
@@ -17,6 +33,9 @@ const Cart = () => {
         <h2>Your Cart is Empty</h2>
       ) : (
         <Fragment>
+          <h2 className="mt-5">
+            Your Cart: <b>{cartItems.length} items</b>
+          </h2>
           <div className="row d-flex justify-content-between">
             <div className="col-12 col-lg-8">
               {cartItems.map((item) => {
@@ -47,7 +66,14 @@ const Cart = () => {
 
                         <div className="col-4 col-lg-3 mt-4 mt-lg-0">
                           <div className="stockCounter d-inline">
-                            <span className="btn btn-danger minus">-</span>
+                            <span
+                              className="btn btn-danger minus"
+                              onClick={() =>
+                                decreaseQty(item.product, item.quantity)
+                              }
+                            >
+                              -
+                            </span>
 
                             <input
                               type="number"
@@ -56,7 +82,18 @@ const Cart = () => {
                               readOnly
                             />
 
-                            <span className="btn btn-primary plus">+</span>
+                            <span
+                              className="btn btn-primary plus"
+                              onClick={() =>
+                                increaseQty(
+                                  item.product,
+                                  item.quantity,
+                                  item.stock
+                                )
+                              }
+                            >
+                              +
+                            </span>
                           </div>
                         </div>
 
@@ -64,6 +101,7 @@ const Cart = () => {
                           <i
                             id="delete_cart_item"
                             className="fa fa-trash btn btn-danger"
+                            onClick={() => removeCartItemHandler(item.product)}
                           ></i>
                         </div>
                       </div>
