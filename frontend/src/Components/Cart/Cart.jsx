@@ -1,10 +1,9 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addItemToCart, RemoveItemFromCart } from "../actions/cartAction";
-import Metadata from "../Components/layout/Metadata";
-
-const Cart = () => {
+import { addItemToCart, RemoveItemFromCart } from "../../actions/cartAction";
+import Metadata from "../layout/Metadata";
+const Cart = ({ history }) => {
   const dispatch = useDispatch();
 
   const { cartItems } = useSelector((state) => state.cart);
@@ -23,6 +22,12 @@ const Cart = () => {
 
   const removeCartItemHandler = (id) => {
     dispatch(RemoveItemFromCart(id));
+  };
+
+  const checkoutHandler = () => {
+    history.push("/login?redirect=shipping");
+    //jodi login kora thake taile shipping a niye jabe er jonno login
+    //a logic set kora hoise r jodi login kora na thakle login page a jabe
   };
 
   return (
@@ -127,7 +132,7 @@ const Cart = () => {
                   </span>
                 </p>
                 <p>
-                  Est. total:{" "}
+                  Unit Price:{" "}
                   <span className="order-summary-values">
                     $
                     {cartItems
@@ -139,8 +144,41 @@ const Cart = () => {
                   </span>
                 </p>
 
+                <p>
+                  Vat (5%):{" "}
+                  <span className="order-summary-values">
+                    $
+                    {cartItems
+                      .reduce(
+                        (acc, item) => acc + item.quantity * item.price * 0.05,
+                        0
+                      )
+                      .toFixed(2)}
+                  </span>
+                </p>
+
+                <p>
+                  Total:{" "}
+                  <span className="order-summary-values">
+                    $
+                    {cartItems
+                      .reduce(
+                        (acc, item) =>
+                          acc +
+                          item.quantity * item.price +
+                          item.quantity * item.price * 0.05,
+                        0
+                      )
+                      .toFixed(2)}
+                  </span>
+                </p>
+
                 <hr />
-                <button id="checkout_btn" className="btn btn-primary btn-block">
+                <button
+                  id="checkout_btn"
+                  className="btn btn-primary btn-block"
+                  onClick={checkoutHandler}
+                >
                   Check out
                 </button>
               </div>

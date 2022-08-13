@@ -6,10 +6,15 @@ import { useAlert } from "react-alert";
 import { login, clearErrors } from "../../actions/userAction";
 import { Link } from "react-router-dom";
 
-const Login = ({ history }) => {
+const Login = ({ history, location }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const dispatch = useDispatch();
+
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+  //jodi checkout korte jay thn login kora na thakle login page a niye jabe
+  //thn login korar por direct niye jabe shipping page a
+  //tai ai logic
 
   const alert = useAlert();
   const { isAuthenticated, loading, error } = useSelector(
@@ -18,7 +23,7 @@ const Login = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      history.push("/");
+      history.push(redirect);
     }
 
     if (error) {
