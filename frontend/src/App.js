@@ -20,7 +20,8 @@ import UpdatePassword from "./Components/User/UpdatePassword";
 import ForgotPassword from "./Components/User/ForgotPassword";
 import { RePassword } from "./Components/User/RePassword";
 import Cart from "./Components/Cart/Cart";
-
+import Shipping from "./Components/Cart/Shipping";
+import ConfirmOrder from "./Components/Cart/ConfirmOrder";
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
   //jate refresh korleo logout na hoy
@@ -50,6 +51,11 @@ const App = () => {
               component={UpdatePassword}
               exact
             />
+            <ProtectRoute path="/shipping" component={Shipping}></ProtectRoute>
+            <ProtectRoute
+              path="/order/confirm"
+              component={ConfirmOrder}
+            ></ProtectRoute>
           </div>
         </div>
       </Router>

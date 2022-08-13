@@ -8,6 +8,16 @@ const Cart = ({ history }) => {
 
   const { cartItems } = useSelector((state) => state.cart);
 
+  //order summary calculation
+  const itemsPrice = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+  const shippingPrice = itemsPrice > 100000 ? 0 : 300;
+
+  const taxPrice = Number((itemsPrice * 0.05).toFixed(2));
+  const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2);
+
   const increaseQty = (id, quantity, stock) => {
     const newQty = quantity + 1;
     if (newQty > stock) return;
@@ -26,8 +36,9 @@ const Cart = ({ history }) => {
 
   const checkoutHandler = () => {
     history.push("/login?redirect=shipping");
-    //jodi login kora thake taile shipping a niye jabe er jonno login
-    //a logic set kora hoise r jodi login kora na thakle login page a jabe
+    //jodi login kora thake taile shipping a niye jabe
+    // r jodi login kora na thakle login page a jabe thn login korar por
+    //direct shipping a jabe
   };
 
   return (
@@ -133,44 +144,21 @@ const Cart = ({ history }) => {
                 </p>
                 <p>
                   Unit Price:{" "}
-                  <span className="order-summary-values">
-                    $
-                    {cartItems
-                      .reduce(
-                        (acc, item) => acc + item.quantity * item.price,
-                        0
-                      )
-                      .toFixed(2)}
-                  </span>
+                  <span className="order-summary-values">${itemsPrice}</span>
                 </p>
 
                 <p>
-                  Vat (5%):{" "}
-                  <span className="order-summary-values">
-                    $
-                    {cartItems
-                      .reduce(
-                        (acc, item) => acc + item.quantity * item.price * 0.05,
-                        0
-                      )
-                      .toFixed(2)}
-                  </span>
+                  Shipping Price{" "}
+                  <span className="order-summary-values">${shippingPrice}</span>
+                </p>
+
+                <p>
+                  Tax <span className="order-summary-values">${taxPrice}</span>
                 </p>
 
                 <p>
                   Total:{" "}
-                  <span className="order-summary-values">
-                    $
-                    {cartItems
-                      .reduce(
-                        (acc, item) =>
-                          acc +
-                          item.quantity * item.price +
-                          item.quantity * item.price * 0.05,
-                        0
-                      )
-                      .toFixed(2)}
-                  </span>
+                  <span className="order-summary-values">${totalPrice}</span>
                 </p>
 
                 <hr />

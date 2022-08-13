@@ -1,31 +1,34 @@
 import React, { Fragment, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingInfo } from "../actions/cartAction";
-import Metadata from "../Components/layout/Metadata";
 import { countries } from "countries-list";
+import Metadata from "../layout/Metadata";
+import { saveShippingInfo } from "../../actions/cartAction";
+import CheckoutSteps from "./CheckoutSteps";
 
 const Shipping = ({ history }) => {
   const { shippingInfo } = useSelector((state) => state.cart);
-  const dispatch = useDispatch();
-  const [address, setAddress] = useState(shippingInfo.address); //shippinguInfo.address dilam jate bar bar address dite na hoy
+
+  const [address, setAddress] = useState(shippingInfo.address);
   const [city, setCity] = useState(shippingInfo.city);
-  const [country, setCountry] = useState(shippingInfo.country);
   const [postalCode, setPostalCode] = useState(shippingInfo.postalCode);
   const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
-
+  const [country, setCountry] = useState(shippingInfo.country);
   const countriesList = Object.values(countries);
+
+  const dispatch = useDispatch();
 
   //value=> US=United State
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(saveShippingInfo(address, city, country, phoneNo, postalCode));
-    history.push("/confirm");
+    dispatch(saveShippingInfo({ address, city, country, phoneNo, postalCode }));
+    history.push("/order/confirm");
   };
 
   return (
     <Fragment>
       <Metadata title={"Shipping Info"}></Metadata>
+      <CheckoutSteps shipping></CheckoutSteps>
       <div className="row wrapper">
         <div className="col-10 col-lg-5">
           <form className="shadow-lg" onSubmit={submitHandler}>

@@ -41,5 +41,5 @@ export const saveShippingInfo = (data) => async (dispatch) => {
   });
 
   //refresh korar por o thakbe
-  localStorage.setItem("shippinginfo", JSON.stringify(data));
+  localStorage.setItem("shippingInfo", JSON.stringify(data));
 };
