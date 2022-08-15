@@ -14,6 +14,7 @@ import {
 } from "./reducers/userReducer";
 
 import { cartReducer } from "./reducers/cartReducers";
+import { newOrderReducer } from "./reducers/orderReducers";
 //aikhane user reducer,order reducer gulo thakbe
 const reducer = combineReducers({
   products: productReducers,
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   user: userReducer,
   forgotPassword: forgotPasswordReducer,
   cart: cartReducer,
+  newOrder: newOrderReducer,
 });
 
 //for cart a initial state 0 thakbe

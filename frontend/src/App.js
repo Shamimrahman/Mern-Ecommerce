@@ -22,6 +22,7 @@ import { RePassword } from "./Components/User/RePassword";
 import Cart from "./Components/Cart/Cart";
 import Shipping from "./Components/Cart/Shipping";
 import ConfirmOrder from "./Components/Cart/ConfirmOrder";
+import OrderSuccess from "./Components/Cart/orderSuccess";
 import axios from "axios";
 
 //payment
@@ -79,6 +80,10 @@ const App = () => {
                 ></ProtectRoute>
               </Elements>
             )}
+            <ProtectRoute
+              path="/success"
+              component={OrderSuccess}
+            ></ProtectRoute>
           </div>
         </div>
       </Router>

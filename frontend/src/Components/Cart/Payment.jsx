@@ -3,6 +3,7 @@ import Metadata from "../layout/Metadata";
 import CheckoutSteps from "./CheckoutSteps";
 import { useSelector, useDispatch } from "react-redux";
 import { useAlert } from "react-alert";
+import { createOrder, clearErrors } from "../../actions/orderActions";
 import {
   useStripe,
   useElements,
@@ -20,6 +21,7 @@ const Payment = ({ history }) => {
 
   const { user } = useSelector((state) => state.auth);
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
+  const { error } = useSelector((state) => state.newOrder);
 
   const options = {
     style: {
@@ -32,14 +34,32 @@ const Payment = ({ history }) => {
     },
   };
 
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, error, alert]);
+
+  const order = {
+    orderItems: cartItems,
+    shippingInfo,
+    user,
+  };
+
   //order info nam a object session storage a save korte hobe
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
+  if (orderInfo) {
+    order.itemsPrice = orderInfo.itemsPrice;
+    order.shippingPrice = orderInfo.shippingPrice;
+    order.taxPrice = orderInfo.taxPrice;
+    order.totalPrice = orderInfo.totalPrice;
+  }
+
   //suppose payment korte hobe $100 dollar to amader percantage akar a pathaite hobe
   const paymentData = {
     amount: Math.round(orderInfo.totalPrice * 100),
   };
-
-  useEffect(() => {}, []);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -77,6 +97,12 @@ const Payment = ({ history }) => {
         // The payment is processed or not
         if (result.paymentIntent.status === "succeeded") {
           //todo
+          order.paymentInfo = {
+            id: result.paymentIntent.id,
+            status: result.paymentIntent.status,
+          };
+
+          dispatch(createOrder(order));
 
           history.push("/success");
         } else {
