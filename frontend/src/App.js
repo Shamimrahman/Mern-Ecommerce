@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./Components/Home";
 import Footer from "./Components/layout/Footer";
 import Header from "./Components/layout/Header";
@@ -22,11 +22,26 @@ import { RePassword } from "./Components/User/RePassword";
 import Cart from "./Components/Cart/Cart";
 import Shipping from "./Components/Cart/Shipping";
 import ConfirmOrder from "./Components/Cart/ConfirmOrder";
+import axios from "axios";
+
+//payment
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import Payment from "./Components/Cart/Payment";
+
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
-  //jate refresh korleo logout na hoy
+  //payment
+  const [stripeApiKey, setStripeApiKey] = useState("");
   useEffect(() => {
+    //jate refresh korleo logout na hoy
     store.dispatch(loadUser());
+    //payment process er jonno stripe api key get kora
+    async function getStripeApiKey() {
+      const { data } = await axios.get("api/v1/stripeapi");
+      setStripeApiKey(data.stripeApiKey);
+    }
+    getStripeApiKey();
   }, []);
   return (
     <div className="App">
@@ -56,6 +71,14 @@ const App = () => {
               path="/order/confirm"
               component={ConfirmOrder}
             ></ProtectRoute>
+            {stripeApiKey && (
+              <Elements stripe={loadStripe(stripeApiKey)}>
+                <ProtectRoute
+                  path="/payment"
+                  component={Payment}
+                ></ProtectRoute>
+              </Elements>
+            )}
           </div>
         </div>
       </Router>

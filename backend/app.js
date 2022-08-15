@@ -5,11 +5,14 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cloudinary = require("cloudinary");
 const fileUpload = require("express-fileupload");
+const dotenv = require("dotenv");
 
 // Setting up config file
 if (process.env.NODE_ENV !== "PRODUCTION")
   require("dotenv").config({ path: "backend/config/config.env" });
 
+//settingup config file
+dotenv.config({ path: "backend/config/config.env" });
 app.use(express.json());
 //for cloudarniy
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -21,10 +24,13 @@ const path = require("path");
 const products = require("./routes/product");
 const auth = require("./routes/auth");
 const order = require("./routes/order");
+const payment = require("./routes/payment");
+
 //for product and user route
 app.use("/api/v1", products);
 app.use("/api/v1", auth);
 app.use("/api/v1", order);
+app.use("/api/v1", payment);
 
 //middleware for error handleing
 app.use(errorMiddleware);

@@ -26,7 +26,7 @@ const ConfirmOrder = ({ history }) => {
 
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
     //session a save hoye thakbe jate kore payment a gelei pawa jawa jay info
-    history.push("/");
+    history.push("/payment");
   };
 
   return (
