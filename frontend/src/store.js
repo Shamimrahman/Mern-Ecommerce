@@ -24,7 +24,7 @@ const reducer = combineReducers({
   forgotPassword: forgotPasswordReducer,
   cart: cartReducer,
   newOrder: newOrderReducer,
-  myOrers: myOrdersReducer,
+  myOrders: myOrdersReducer,
 });
 
 //for cart a initial state 0 thakbe
