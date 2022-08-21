@@ -30,6 +30,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Payment from "./Components/Cart/Payment";
 import ListOrders from "./Components/Order/ListOrders";
+import OrderDetails from "./Components/Order/OrderDetails";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -89,6 +90,13 @@ const App = () => {
             <ProtectRoute
               path="/orders/me"
               component={ListOrders}
+              exact
+            ></ProtectRoute>
+
+            <ProtectRoute
+              path="/order/:id"
+              component={OrderDetails}
+              exact
             ></ProtectRoute>
           </div>
         </div>

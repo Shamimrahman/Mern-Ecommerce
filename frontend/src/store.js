@@ -5,6 +5,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   productReducers,
   productDetailsReducer,
+  newReviewReducer,
 } from "./reducers/productReducers";
 
 import {
@@ -14,7 +15,11 @@ import {
 } from "./reducers/userReducer";
 
 import { cartReducer } from "./reducers/cartReducers";
-import { newOrderReducer, myOrdersReducer } from "./reducers/orderReducers";
+import {
+  newOrderReducer,
+  myOrdersReducer,
+  orderDetailsReducer,
+} from "./reducers/orderReducers";
 //aikhane user reducer,order reducer gulo thakbe
 const reducer = combineReducers({
   products: productReducers,
@@ -25,6 +30,8 @@ const reducer = combineReducers({
   cart: cartReducer,
   newOrder: newOrderReducer,
   myOrders: myOrdersReducer,
+  orderDetails: orderDetailsReducer,
+  newReview: newReviewReducer,
 });
 
 //for cart a initial state 0 thakbe
