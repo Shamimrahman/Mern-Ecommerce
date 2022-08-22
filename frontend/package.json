@@ -12,6 +12,7 @@
     "countries-list": "^2.6.1",
     "helmet": "^5.0.2",
     "mdbreact": "^5.2.0",
+    "moment": "^2.29.4",
     "rc-slider": "^10.0.0",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",

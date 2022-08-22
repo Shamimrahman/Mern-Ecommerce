@@ -6,6 +6,7 @@ import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderDetails, clearErrors } from "../../actions/orderActions";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 
 const OrderDetails = () => {
   const dispatch = useDispatch();
@@ -69,7 +70,7 @@ const OrderDetails = () => {
 
               <p>
                 <b>Ordered At: </b>
-                {String(order.createdAt).substring(0, 10)}
+                {moment(order.createdAt).format("LLLL")}
               </p>
 
               <hr />

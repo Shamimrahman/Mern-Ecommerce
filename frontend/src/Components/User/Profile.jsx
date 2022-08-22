@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Metadata from "../layout/Metadata";
 import Loader from "../layout/Loader";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 const Profile = () => {
   //aikhane auth ta ashse store.js theke
@@ -42,7 +43,7 @@ const Profile = () => {
               <p>{user.email}</p>
 
               <h4>Joined On</h4>
-              <p>{String(user.createdAt).substring(0, 10)}</p>
+              <p> {moment(user.createdAt).format("LLLL")}</p>
 
               {user.role !== "admin" && (
                 <Link to="/orders/me" className="btn btn-danger btn-block mt-5">
