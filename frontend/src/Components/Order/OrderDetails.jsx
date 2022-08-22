@@ -67,6 +67,11 @@ const OrderDetails = () => {
                 <b>Amount:</b> ${totalPrice}
               </p>
 
+              <p>
+                <b>Ordered At: </b>
+                {String(order.createdAt).substring(0, 10)}
+              </p>
+
               <hr />
 
               <h4 className="my-4">Payment</h4>
