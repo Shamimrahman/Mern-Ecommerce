@@ -3,6 +3,7 @@ import {
   ADD_TO_CART,
   REMOVE_ITEM_CART,
   SAVE_SHIPPING_INFO,
+  CLEAR_ERRORS,
 } from "../constants/cartConstant";
 
 export const addItemToCart = (id, quantity) => async (dispatch, getState) => {
@@ -42,4 +43,11 @@ export const saveShippingInfo = (data) => async (dispatch) => {
 
   //refresh korar por o thakbe
   localStorage.setItem("shippingInfo", JSON.stringify(data));
+};
+
+//clear errors
+export const clearErrors = () => async (dispatch) => {
+  dispatch({
+    type: CLEAR_ERRORS,
+  });
 };

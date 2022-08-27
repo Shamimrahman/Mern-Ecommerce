@@ -11,6 +11,7 @@ export const cartReducer = (
   switch (action.type) {
     case ADD_TO_CART:
       const item = action.payload;
+
       const isItemExist = state.cartItems.find(
         (i) => i.product === item.product
       );
@@ -22,7 +23,6 @@ export const cartReducer = (
             i.product === isItemExist.product ? item : i
           ),
         };
-        //proti ta item k map korbe
       } else {
         return {
           ...state,

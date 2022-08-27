@@ -22,7 +22,7 @@ const Shipping = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(saveShippingInfo({ address, city, country, phoneNo, postalCode }));
-    history.push("/order/confirm");
+    history.push("/confirm");
   };
 
   return (

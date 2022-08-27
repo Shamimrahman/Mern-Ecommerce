@@ -1,18 +1,21 @@
 import React, { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 import Metadata from "../layout/Metadata";
 import CheckoutSteps from "./CheckoutSteps";
-import { Link } from "react-router-dom";
+
+import { useSelector } from "react-redux";
+
 const ConfirmOrder = ({ history }) => {
   const { cartItems, shippingInfo } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
-  //order process calculation
+  // Calculate Order Prices
   const itemsPrice = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const shippingPrice = itemsPrice > 100000 ? 0 : 300;
+  const shippingPrice = itemsPrice > 200 ? 0 : 25;
   const taxPrice = Number((0.05 * itemsPrice).toFixed(2));
   const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2);
 
@@ -25,14 +28,15 @@ const ConfirmOrder = ({ history }) => {
     };
 
     sessionStorage.setItem("orderInfo", JSON.stringify(data));
-    //session a save hoye thakbe jate kore payment a gelei pawa jawa jay info
     history.push("/payment");
   };
 
   return (
     <Fragment>
-      <Metadata title={"Confirm Order"}></Metadata>
-      <CheckoutSteps shipping confirmOrder></CheckoutSteps>
+      <Metadata title={"Confirm Order"} />
+
+      <CheckoutSteps shipping confirmOrder />
+
       <div className="row d-flex justify-content-between">
         <div className="col-12 col-lg-8 mt-5 order-confirm">
           <h4 className="mb-3">Shipping Info</h4>
@@ -44,7 +48,7 @@ const ConfirmOrder = ({ history }) => {
           </p>
           <p className="mb-4">
             <b>Address:</b>{" "}
-            {`${shippingInfo.address},${shippingInfo.city},${shippingInfo.country},${shippingInfo.postalCode}`}
+            {`${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.postalCode}, ${shippingInfo.country}`}
           </p>
 
           <hr />
@@ -81,11 +85,11 @@ const ConfirmOrder = ({ history }) => {
             <h4>Order Summary</h4>
             <hr />
             <p>
-              Subtotal:
+              Subtotal:{" "}
               <span className="order-summary-values">${itemsPrice}</span>
             </p>
             <p>
-              Shipping:
+              Shipping:{" "}
               <span className="order-summary-values">${shippingPrice}</span>
             </p>
             <p>

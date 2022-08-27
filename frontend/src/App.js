@@ -32,6 +32,9 @@ import Payment from "./Components/Cart/Payment";
 import ListOrders from "./Components/Order/ListOrders";
 import OrderDetails from "./Components/Order/OrderDetails";
 
+//admin
+import Dashboard from "./Components/admin/Dashboard";
+
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
   //payment
@@ -71,15 +74,13 @@ const App = () => {
             />
             <ProtectRoute path="/shipping" component={Shipping}></ProtectRoute>
             <ProtectRoute
-              path="/order/confirm"
+              path="/confirm"
               component={ConfirmOrder}
+              exact
             ></ProtectRoute>
             {stripeApiKey && (
               <Elements stripe={loadStripe(stripeApiKey)}>
-                <ProtectRoute
-                  path="/payment"
-                  component={Payment}
-                ></ProtectRoute>
+                <ProtectRoute path="/payment" component={Payment} />
               </Elements>
             )}
             <ProtectRoute
@@ -92,14 +93,16 @@ const App = () => {
               component={ListOrders}
               exact
             ></ProtectRoute>
-
-            <ProtectRoute
-              path="/order/:id"
-              component={OrderDetails}
-              exact
-            ></ProtectRoute>
+            <ProtectRoute path="/order/:id" component={OrderDetails} exact />
           </div>
         </div>
+
+        <ProtectRoute
+          path="/dashboard"
+          isAdmin={true}
+          component={Dashboard}
+          exact
+        />
       </Router>
 
       <Footer></Footer>
