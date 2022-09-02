@@ -1,21 +1,47 @@
 const Product = require("../models/product");
 const errorHandler = require("../utils/errorHandler");
 const asyncCatchError = require("../middlewares/asyncCatchError");
+const cloudinary = require("cloudinary");
+
 //asyncCatchError use kori error handle korar jonno
 //suppose amra ekti product create kortesi but nam dei nai
 //jdi amra custom error handler use na kori tahole postman a just sending
 //dekhabe so jate error ta show kore tar jonno amra asyncCatchError use kori
 
-//create new product in /api/v1/admin/product/new
-
 const ApiFeatures = require("../utils/apiFeatures");
 const ErrorHandler = require("../utils/errorHandler");
 
+//create new product in /api/v1/admin/product/new
+
 exports.newProduct = asyncCatchError(async (req, res, next) => {
-  //adding user in product
+  //cloudinary
+  let images = [];
+  if (typeof req.body.images === "string") {
+    images.push(req.body.images);
+  } else {
+    images = req.body.images;
+  }
+
+  //jodi ekta image upload kori tahole image string hisabe jabe
+
+  let imagesLinks = [];
+
+  for (let i = 0; i < images.length; i++) {
+    const result = await cloudinary.v2.uploader.upload(images[i], {
+      folder: "products",
+    });
+
+    imagesLinks.push({
+      public_id: result.public_id,
+      url: result.secure_url,
+    });
+  }
+
+  req.body.images = imagesLinks;
   req.body.user = req.user.id;
+
   const product = await Product.create(req.body);
-  res.status(201).json({
+  res.status(200).json({
     success: true,
     product,
   });
@@ -91,7 +117,7 @@ exports.updateProduct = asyncCatchError(async (req, res, next) => {
     useFindAndModify: false,
   });
 
-  res.status(202).json({
+  res.status(200).json({
     success: true,
     product,
   });
@@ -101,17 +127,23 @@ exports.updateProduct = asyncCatchError(async (req, res, next) => {
 
 exports.deleteProduct = asyncCatchError(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
+
   if (!product) {
-    return res.status(404).json({
-      success: false,
-      message: "Product not found",
-    });
+    return next(new ErrorHandler("Product not found", 404));
   }
 
-  await Product.remove();
-  res.status(202).json({
+  // Deleting images associated with the product
+  for (let i = 0; i < product.images.length; i++) {
+    const result = await cloudinary.v2.uploader.destroy(
+      product.images[i].public_id
+    );
+  }
+
+  await product.remove();
+
+  res.status(200).json({
     success: true,
-    message: "Product deleted sucessfully",
+    message: "Product is deleted.",
   });
 });
 

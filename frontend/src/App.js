@@ -24,6 +24,7 @@ import Shipping from "./Components/Cart/Shipping";
 import ConfirmOrder from "./Components/Cart/ConfirmOrder";
 import OrderSuccess from "./Components/Cart/orderSuccess";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 //payment
 import { Elements } from "@stripe/react-stripe-js";
@@ -35,6 +36,7 @@ import OrderDetails from "./Components/Order/OrderDetails";
 //admin
 import Dashboard from "./Components/admin/Dashboard";
 import Productslist from "./Components/admin/Productslist";
+import Newproduct from "./Components/admin/Newproduct";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -50,6 +52,9 @@ const App = () => {
     }
     getStripeApiKey();
   }, []);
+
+  const { user, isAuthenticated, loading } = useSelector((state) => state.auth);
+
   return (
     <div className="App">
       <Router>
@@ -109,10 +114,17 @@ const App = () => {
             component={Productslist}
             exact
           />
+
+          <ProtectRoute
+            path="/admin/product"
+            isAdmin={true}
+            component={Newproduct}
+            exact
+          />
         </div>
       </Router>
 
-      <Footer></Footer>
+      {!loading && (!isAuthenticated || user.role !== "admin") && <Footer />}
     </div>
   );
 };
