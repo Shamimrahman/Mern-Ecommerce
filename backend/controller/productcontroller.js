@@ -52,6 +52,15 @@ exports.getProducts = asyncCatchError(async (req, res, next) => {
   }, 200);
 });
 
+//get all products by admin
+exports.getAdminProducts = asyncCatchError(async (req, res, next) => {
+  const products = await Product.find();
+  res.status(200).json({
+    success: true,
+    products,
+  });
+});
+
 //get single product in api/v1/product/:id
 //use Errorhandler
 
@@ -69,7 +78,6 @@ exports.getSingleProduct = asyncCatchError(async (req, res, next) => {
 });
 
 //update product in /api/v1/admin/product/:id
-
 exports.updateProduct = asyncCatchError(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 

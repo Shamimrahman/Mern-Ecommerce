@@ -34,6 +34,7 @@ import OrderDetails from "./Components/Order/OrderDetails";
 
 //admin
 import Dashboard from "./Components/admin/Dashboard";
+import Productslist from "./Components/admin/Productslist";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -95,14 +96,20 @@ const App = () => {
             ></ProtectRoute>
             <ProtectRoute path="/order/:id" component={OrderDetails} exact />
           </div>
-        </div>
+          <ProtectRoute
+            path="/dashboard"
+            isAdmin={true}
+            component={Dashboard}
+            exact
+          />
 
-        <ProtectRoute
-          path="/dashboard"
-          isAdmin={true}
-          component={Dashboard}
-          exact
-        />
+          <ProtectRoute
+            path="/admin/products"
+            isAdmin={true}
+            component={Productslist}
+            exact
+          />
+        </div>
       </Router>
 
       <Footer></Footer>

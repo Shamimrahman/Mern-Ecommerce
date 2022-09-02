@@ -1,9 +1,24 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import Metadata from "../layout/Metadata";
 import Loader from "../layout/Loader";
 import Sidebar from "./Sidebar";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAdminProducts } from "../../actions/productAction";
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.products);
+
+  useEffect(() => {
+    dispatch(getAdminProducts());
+  }, [dispatch]);
+
+  let outOfStock = 0;
+  products.forEach((product) => {
+    if (product.stock === 0) {
+      outOfStock += 1;
+    }
+  });
   return (
     <Fragment>
       <div className="row">
@@ -36,7 +51,7 @@ const Dashboard = () => {
                   <div className="card-body">
                     <div className="text-center card-font-size">
                       Products
-                      <br /> <b>52</b>
+                      <br /> <b>{products.length}</b>
                     </div>
                   </div>
                   <Link
@@ -96,7 +111,7 @@ const Dashboard = () => {
                   <div className="card-body">
                     <div className="text-center card-font-size">
                       Out of Stock
-                      <br /> <b>2</b>
+                      <br /> <b>{outOfStock}</b>
                     </div>
                   </div>
                 </div>
