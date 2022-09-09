@@ -73,11 +73,6 @@ const OrderDetails = () => {
                 {moment(order.createdAt).format("LLLL")}
               </p>
 
-              <p>
-                <b>Delevered At: </b>
-                {moment(order.deliveredAt).format("LLLL")}
-              </p>
-
               <hr />
 
               <h4 className="my-4">Payment</h4>

@@ -94,12 +94,7 @@ const ProcessOrder = () => {
                     <b>Ordered At: </b>
                     {moment(order.createdAt).format("LLLL")}
                   </p>
-                  {order.orderStatus === "Delivered"}?(
-                  <p>
-                    <b>Ordered At: </b>
-                    {moment(order.DeliveredAt).format("LLLL")}
-                  </p>
-                  ):("")
+
                   <hr />
                   <h4 className="my-4">Payment</h4>
                   <p className={isPaid ? "greenColor" : "redColor"}>
@@ -118,9 +113,7 @@ const ProcessOrder = () => {
                         : "redColor"
                     }
                   >
-                    <b>
-                      {orderStatus} {moment(order.DeliveredAt).format("LLLL")}
-                    </b>
+                    <b>{orderStatus}</b>
                   </p>
                   <h4 className="my-4">Order Items:</h4>
                   <hr />
