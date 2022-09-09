@@ -150,3 +150,57 @@ export const allOrdersReducer = (state = { orders: [] }, action) => {
       return state;
   }
 };
+
+//admin delete order and update order
+export const orderReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_ORDER_REQUEST:
+    case UPDATE_ORDER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case DELETE_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isDeleted: action.payload,
+      };
+
+    case UPDATE_ORDER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        isUpdated: action.payload,
+      };
+
+    case DELETE_ORDER_FAIL:
+    case UPDATE_ORDER_FAIL:
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case DELETE_ORDER_RESET:
+      return {
+        ...state,
+        isDeleted: false,
+      };
+
+    case UPDATE_ORDER_RESET:
+      return {
+        ...state,
+        isUpdated: false,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};

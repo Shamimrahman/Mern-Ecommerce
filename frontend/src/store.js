@@ -22,6 +22,7 @@ import {
   myOrdersReducer,
   orderDetailsReducer,
   allOrdersReducer,
+  orderReducer,
 } from "./reducers/orderReducers";
 //aikhane user reducer,order reducer gulo thakbe
 const reducer = combineReducers({
@@ -38,6 +39,7 @@ const reducer = combineReducers({
   newProduct: newProductReducer,
   product: productReducer,
   allOrders: allOrdersReducer,
+  order: orderReducer,
 });
 
 //for cart a initial state 0 thakbe

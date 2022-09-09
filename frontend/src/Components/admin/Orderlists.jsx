@@ -14,7 +14,6 @@ const Orderlists = () => {
   const dispatch = useDispatch();
   const alert = useAlert();
   const { orders, loading, error } = useSelector((state) => state.allOrders);
-
   useEffect(() => {
     dispatch(allOrders());
 
