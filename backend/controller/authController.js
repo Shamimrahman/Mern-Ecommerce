@@ -235,11 +235,11 @@ exports.logout = catchAsyncError(async (req, res, next) => {
 //admin get all user
 // aluser=> api/v1/admin/users
 exports.getAllUsers = catchAsyncError(async (req, res, next) => {
-  const user = await User.find();
+  const users = await User.find();
 
   res.status(200).json({
     success: true,
-    user,
+    users,
   });
 });
 

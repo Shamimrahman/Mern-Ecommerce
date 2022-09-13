@@ -14,6 +14,7 @@ import {
   authReducer,
   userReducer,
   forgotPasswordReducer,
+  allUsersReducer,
 } from "./reducers/userReducer";
 
 import { cartReducer } from "./reducers/cartReducers";
@@ -40,6 +41,7 @@ const reducer = combineReducers({
   product: productReducer,
   allOrders: allOrdersReducer,
   order: orderReducer,
+  allUsers: allUsersReducer,
 });
 
 //for cart a initial state 0 thakbe

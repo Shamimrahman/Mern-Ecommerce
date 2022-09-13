@@ -40,6 +40,9 @@ import Newproduct from "./Components/admin/Newproduct";
 import Updateproduct from "./Components/admin/Updateproduct";
 import Orderlists from "./Components/admin/Orderlists";
 import ProcessOrder from "./Components/admin/ProcessOrder";
+import Alluseres from "./Components/admin/Alluseres";
+import UsersList from "./Components/admin/UsersList";
+import Updateuser from "./Components/admin/Updateuser";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -142,6 +145,19 @@ const App = () => {
             path="/admin/order/:id"
             isAdmin={true}
             component={ProcessOrder}
+            exact
+          />
+
+          <ProtectRoute
+            path="/admin/users"
+            isAdmin={true}
+            component={UsersList}
+            exact
+          />
+          <ProtectRoute
+            path="/admin/user/:id"
+            isAdmin={true}
+            component={Updateuser}
             exact
           />
         </div>

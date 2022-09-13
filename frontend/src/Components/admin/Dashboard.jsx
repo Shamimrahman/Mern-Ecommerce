@@ -13,6 +13,8 @@ const Dashboard = () => {
     (state) => state.allOrders
   );
 
+  const { users } = useSelector((state) => state.allUsers);
+
   useEffect(() => {
     dispatch(getAdminProducts());
     dispatch(allOrders());
@@ -99,7 +101,7 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="text-center card-font-size">
                         Users
-                        <br /> <b>25</b>
+                        <br /> <b>{users && users.length}</b>
                       </div>
                     </div>
                     <Link
