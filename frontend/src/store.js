@@ -15,6 +15,7 @@ import {
   userReducer,
   forgotPasswordReducer,
   allUsersReducer,
+  userDetailsReducer,
 } from "./reducers/userReducer";
 
 import { cartReducer } from "./reducers/cartReducers";
@@ -42,6 +43,7 @@ const reducer = combineReducers({
   allOrders: allOrdersReducer,
   order: orderReducer,
   allUsers: allUsersReducer,
+  userDetails: userDetailsReducer,
 });
 
 //for cart a initial state 0 thakbe
