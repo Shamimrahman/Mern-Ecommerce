@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 
 import Metadata from "../layout/Metadata";
 import Sidebar from "./Sidebar";
+import { useParams } from "react-router-dom";
 
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +24,8 @@ const UpdateUser = ({ history, match }) => {
   const { error, isUpdated } = useSelector((state) => state.user);
   const { user } = useSelector((state) => state.userDetails);
 
-  const userId = match.params.id;
+  const { id } = useParams();
+  const userId = id;
 
   useEffect(() => {
     console.log(user && user._id !== userId);

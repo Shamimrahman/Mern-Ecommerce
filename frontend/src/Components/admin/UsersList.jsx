@@ -8,7 +8,7 @@ import Sidebar from "./Sidebar";
 
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllUsers, clearErrors } from "../../actions/userAction";
+import { getAllUsers, clearErrors, deleteUser } from "../../actions/userAction";
 import { DELETE_USER_RESET } from "../../constants/userConstant";
 
 const UsersList = ({ history }) => {
@@ -16,7 +16,7 @@ const UsersList = ({ history }) => {
   const dispatch = useDispatch();
 
   const { loading, error, users } = useSelector((state) => state.allUsers);
-
+  const { isDeleted, error: deleteError } = useSelector((state) => state.user);
   useEffect(() => {
     dispatch(getAllUsers());
 
@@ -24,7 +24,18 @@ const UsersList = ({ history }) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, alert, error]);
+
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+    }
+
+    if (isDeleted) {
+      alert.success("User deleted successfully");
+      history.push("/admin/users");
+      dispatch({ type: DELETE_USER_RESET });
+    }
+  }, [dispatch, alert, error, isDeleted, history, deleteError]);
 
   const setUsers = () => {
     const data = {
@@ -72,7 +83,10 @@ const UsersList = ({ history }) => {
             >
               <i className="fa fa-pencil"></i>
             </Link>
-            <button className="btn btn-danger py-1 px-2 ml-2">
+            <button
+              className="btn btn-danger py-1 px-2 ml-2"
+              onClick={() => deleteUserHandler(user._id)}
+            >
               <i className="fa fa-trash"></i>
             </button>
           </Fragment>
@@ -81,6 +95,9 @@ const UsersList = ({ history }) => {
     });
 
     return data;
+  };
+  const deleteUserHandler = (id) => {
+    dispatch(deleteUser(id));
   };
 
   return (

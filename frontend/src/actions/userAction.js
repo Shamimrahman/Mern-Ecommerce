@@ -35,6 +35,10 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_RESET,
   UPDATE_USER_FAIL,
+  DELETE_USER_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_RESET,
+  DELETE_USER_FAIL,
 } from "../constants/userConstant";
 
 import axios from "axios";
@@ -264,7 +268,7 @@ export const updateUser = (id, userData) => async (dispatch) => {
   }
 };
 
-//get user details by admin
+//get user details by admin for edit
 
 export const getUserDetails = (id) => async (dispatch) => {
   try {
@@ -279,6 +283,25 @@ export const getUserDetails = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: USER_DETAILS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//admin delete user
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_USER_REQUEST });
+
+    const { data } = await axios.delete(`/api/v1/admin/user/${id}`);
+
+    dispatch({
+      type: DELETE_USER_SUCCESS,
+      payload: data.success,
+    });
+  } catch (error) {
+    dispatch({
+      type: DELETE_USER_FAIL,
       payload: error.response.data.message,
     });
   }

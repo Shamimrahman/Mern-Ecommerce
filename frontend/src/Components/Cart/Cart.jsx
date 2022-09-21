@@ -13,7 +13,7 @@ const Cart = ({ history }) => {
     (acc, item) => acc + item.price * item.quantity,
     0
   );
-  const shippingPrice = itemsPrice > 100000 ? 0 : 300;
+  const shippingPrice = itemsPrice > 1400 ? 0 : 75;
 
   const taxPrice = Number((itemsPrice * 0.05).toFixed(2));
   const totalPrice = (itemsPrice + shippingPrice + taxPrice).toFixed(2);
