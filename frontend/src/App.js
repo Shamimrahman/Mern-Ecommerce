@@ -42,6 +42,7 @@ import Orderlists from "./Components/admin/Orderlists";
 import ProcessOrder from "./Components/admin/ProcessOrder";
 import UsersList from "./Components/admin/UsersList";
 import UpdateUser from "./Components/admin/UpdateUser";
+import ProductReviews from "./Components/admin/ProductReviews";
 
 //https://www.codegrepper.com/code-examples/javascript/react+router+version+5+install+
 const App = () => {
@@ -157,6 +158,12 @@ const App = () => {
             path="/admin/user/:id"
             isAdmin={true}
             component={UpdateUser}
+            exact
+          />
+          <ProtectRoute
+            path="/admin/reviews"
+            isAdmin={true}
+            component={ProductReviews}
             exact
           />
         </div>

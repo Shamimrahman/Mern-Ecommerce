@@ -8,6 +8,8 @@ import {
   newReviewReducer,
   newProductReducer,
   productReducer,
+  productReviewsReducer,
+  reviewReducer,
 } from "./reducers/productReducers";
 
 import {
@@ -44,6 +46,8 @@ const reducer = combineReducers({
   order: orderReducer,
   allUsers: allUsersReducer,
   userDetails: userDetailsReducer,
+  productReviews: productReviewsReducer,
+  deleteReview: reviewReducer,
 });
 
 //for cart a initial state 0 thakbe
