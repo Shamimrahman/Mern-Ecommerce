@@ -13,7 +13,7 @@
     "helmet": "^5.0.2",
     "mdbreact": "^5.2.0",
     "moment": "^2.29.4",
-    "rc-slider": "^10.0.0",
+    "rc-slider": "^9.6.5",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
     "react-alert-template-basic": "^1.0.2",

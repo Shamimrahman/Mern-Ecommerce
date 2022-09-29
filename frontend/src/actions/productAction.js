@@ -33,18 +33,26 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export const getProducts =
-  (currentPage = 1) =>
+  (keyword = "", currentPage = 1, price, category, rating = 0) =>
   async (dispatch) => {
     try {
-      dispatch({
-        type: ALL_PRODUCTS_REQUEST,
-      });
+      dispatch({ type: ALL_PRODUCTS_REQUEST });
 
-      let link = `/api/v1/products?page=${currentPage}`;
+      // gte-greater than equal to and lte=less than equal to
+      //lte=price[1] mane price 3000 dollar er theke kom hobe or equal
+      //jeita amra home a define korsi
+      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
+
+      if (category) {
+        link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`;
+      }
 
       const { data } = await axios.get(link);
 
-      dispatch({ type: ALL_PRODUCTS_SUCCESS, payload: data });
+      dispatch({
+        type: ALL_PRODUCTS_SUCCESS,
+        payload: data,
+      });
     } catch (error) {
       dispatch({
         type: ALL_PRODUCTS_FAIL,

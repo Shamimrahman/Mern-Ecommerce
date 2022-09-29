@@ -1,116 +1,181 @@
-import React, { Fragment, useEffect, useState } from "react";
-import "../App.css";
-import Metadata from "./layout/Metadata";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "../actions/productAction";
-import Product from "./product/Product";
-import Loader from "./layout/Loader";
-import { useAlert } from "react-alert";
+import React, { Fragment, useState, useEffect } from "react";
 import Pagination from "react-js-pagination";
-import Slider from "rc-slider";
+import Slider, { range } from "rc-slider";
 import "rc-slider/assets/index.css";
 
+import Metadata from "./layout/Metadata";
+import Product from "./product/Product";
+import Loader from "./layout/Loader";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useAlert } from "react-alert";
+import { getProducts } from "../actions/productAction";
+const { createSliderWithTooltip } = Slider;
+const Range = createSliderWithTooltip(Slider.Range);
 const Home = ({ match }) => {
-  //alert er functionality index.js a
+  const [currentPage, setCurrentPage] = useState(1);
+  const [price, setPrice] = useState([1, 2500]);
+  const [category, setCategory] = useState("");
+  const [rating, setRating] = useState(0);
+
+  const categories = [
+    "Electronics",
+    "Cameras",
+    "Laptops",
+    "Accessories",
+    "Headphones",
+    "Food",
+    "Books",
+    "Clothes/Shoes",
+    "Beauty/Health",
+    "Sports",
+    "Outdoor",
+  ];
+
   const alert = useAlert();
   const dispatch = useDispatch();
-  const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([1, 100000]);
 
-  const { loading, products, error, productsCount, resPerPage } = useSelector(
-    (state) => state.products
-  );
+  const {
+    loading,
+    products,
+    error,
+    productsCount,
+    resPerPage,
+    filteredProductsCount,
+  } = useSelector((state) => state.products);
 
   const keyword = match.params.keyword;
 
-  let count = productsCount;
   useEffect(() => {
     if (error) {
       return alert.error(error);
     }
-    dispatch(getProducts(currentPage, keyword, price));
-  }, [dispatch, alert, error, currentPage, keyword, price]);
 
-  //pagination
+    dispatch(getProducts(keyword, currentPage, price, category, rating));
+  }, [dispatch, alert, error, keyword, currentPage, price, category, rating]);
+
   function setCurrentPageNo(pageNumber) {
     setCurrentPage(pageNumber);
+  }
+
+  let count = productsCount;
+  if (keyword) {
+    count = filteredProductsCount;
   }
 
   return (
     <Fragment>
       {loading ? (
-        <Loader></Loader>
+        <Loader />
       ) : (
         <Fragment>
-          <Metadata title={"Buy Best Product Online"}></Metadata>
-          <div className="container container-fluid mt-5">
-            <h1 className="products_heading">Latest Product</h1>
-          </div>
+          <Metadata title={"Buy Best Products Online"} />
 
-          <section id="products" class="container mt-5">
+          <h1 id="products_heading">Latest Products</h1>
+
+          <section id="products" className="container mt-5">
             <div className="row">
-              {products &&
-                products.map((product) => (
-                  <div
-                    key={product.id_}
-                    class="col-sm-12 col-md-6 col-lg-3 my-3"
-                  >
-                    <div class="card p-3 rounded">
-                      <img
-                        class="card-img-top mx-auto"
-                        src={product.images[0].url}
-                      />
-                      <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">
-                          <Link to={`/product/${product._id}`}>
-                            {product.name}
-                          </Link>
-                        </h5>
-                        <div class="ratings mt-auto">
-                          <div class="rating-outer">
-                            <div
-                              class="rating-inner"
-                              style={{
-                                width: `${(product.ratings / 5) * 100}%`,
-                              }}
-                            ></div>
-                          </div>
-                          <span id="no_of_reviews">{product.numOfReviews}</span>
-                        </div>
-                        <p class="card-text">${product.price}</p>
-                        <Link
-                          to={`/product/${product._id}`}
-                          id="view_btn"
-                          class="btn btn-block"
-                        >
-                          View Details
-                        </Link>
-                      </div>
+              <Fragment>
+                <div className="col-6 col-md-3 mt-5 mb-5">
+                  <div className="px-5">
+                    <Range
+                      marks={{
+                        1: `$1`,
+                        2500: `$2500`,
+                      }}
+                      min={1}
+                      max={2500}
+                      defaultValue={[1, 2500]}
+                      tipFormatter={(value) => `$${value}`}
+                      tipProps={{
+                        placement: "top",
+                        visible: true,
+                      }}
+                      value={price}
+                      onChange={(price) => setPrice(price)}
+                    />
+
+                    <hr className="my-5" />
+
+                    <div className="mt-5">
+                      <h4 className="mb-3">Categories</h4>
+
+                      <ul className="pl-0 hoverable">
+                        {categories.map((category) => (
+                          <li
+                            className="pb-3"
+                            style={{
+                              cursor: "pointer",
+                              listStyleType: "none",
+                            }}
+                            key={category}
+                            onClick={() => setCategory(category)}
+                          >
+                            <li>{category}</li>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <hr className="my-3" />
+
+                    <div className="mt-5">
+                      <h4 className="mb-3">Ratings</h4>
+
+                      <ul className="pl-0">
+                        {[5, 4, 3, 2, 1].map((star) => (
+                          <li
+                            style={{
+                              cursor: "pointer",
+                              listStyleType: "none",
+                            }}
+                            key={star}
+                            onClick={() => setRating(star)}
+                          >
+                            <li>
+                              <div className="rating-outer">
+                                <div
+                                  className="rating-inner"
+                                  style={{
+                                    width: `${star * 20}%`,
+                                  }}
+                                ></div>
+                              </div>
+                            </li>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                ))}
+                </div>
+
+                <div className="col-6 col-md-9">
+                  <div className="row">
+                    {products.map((product) => (
+                      <Product key={product._id} product={product} col={4} />
+                    ))}
+                  </div>
+                </div>
+              </Fragment>
             </div>
           </section>
 
-          <div className="d-flex justify-content-center mt-5">
-            {resPerPage <= productsCount && (
-              <div className="d-flex justify-content-center mt-5">
-                <Pagination
-                  activePage={currentPage}
-                  itemsCountPerPage={resPerPage}
-                  totalItemsCount={productsCount}
-                  onChange={setCurrentPageNo}
-                  nextPageText={"Next"}
-                  prevPageText={"Prev"}
-                  firstPageText={"First"}
-                  lastPageText={"Last"}
-                  itemClass="page-item"
-                  linkClass="page-link"
-                />
-              </div>
-            )}
-          </div>
+          {resPerPage <= count && (
+            <div className="d-flex justify-content-center mt-5">
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={resPerPage}
+                totalItemsCount={productsCount}
+                onChange={setCurrentPageNo}
+                nextPageText={"Next"}
+                prevPageText={"Prev"}
+                firstPageText={"First"}
+                lastPageText={"Last"}
+                itemClass="page-item"
+                linkClass="page-link"
+              />
+            </div>
+          )}
         </Fragment>
       )}
     </Fragment>
