@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import "./Home.css";
 import Pagination from "react-js-pagination";
 import Slider, { range } from "rc-slider";
 import "rc-slider/assets/index.css";
@@ -30,6 +31,7 @@ const Home = ({ match }) => {
     "Beauty/Health",
     "Sports",
     "Outdoor",
+    "Home",
   ];
 
   const alert = useAlert();
@@ -76,7 +78,7 @@ const Home = ({ match }) => {
           <section id="products" className="container mt-5">
             <div className="row">
               <Fragment>
-                <div className="col-6 col-md-3 mt-5 mb-5">
+                <div className="col-6 col-md-3 mt-5 mb-5 ">
                   <div className="px-5">
                     <Range
                       marks={{
@@ -97,10 +99,10 @@ const Home = ({ match }) => {
 
                     <hr className="my-5" />
 
-                    <div className="mt-5">
+                    <div className="mt-5 home">
                       <h4 className="mb-3">Categories</h4>
 
-                      <ul className="pl-0 hoverable">
+                      <ul className="pl-0 ">
                         {categories.map((category) => (
                           <li
                             className="pb-3"
@@ -119,12 +121,13 @@ const Home = ({ match }) => {
 
                     <hr className="my-3" />
 
-                    <div className="mt-5">
+                    <div className="mt-5  ">
                       <h4 className="mb-3">Ratings</h4>
 
-                      <ul className="pl-0">
+                      <ul className="pl-0 list">
                         {[5, 4, 3, 2, 1].map((star) => (
                           <li
+                            className="home"
                             style={{
                               cursor: "pointer",
                               listStyleType: "none",
@@ -159,9 +162,8 @@ const Home = ({ match }) => {
               </Fragment>
             </div>
           </section>
-
           {resPerPage <= count && (
-            <div className="d-flex justify-content-center mt-5">
+            <div className="d-flex justify-content-center mt-2">
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resPerPage}

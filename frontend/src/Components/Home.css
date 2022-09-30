@@ -1,0 +1,32 @@
+.home ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.home li {
+  font: 200 18px/1.5 Helvetica, Verdana, sans-serif;
+  border-bottom: 1px solid #ccc;
+}
+
+.home li:last-child {
+  border: none;
+}
+
+.home li {
+  text-decoration: none;
+  color: #000;
+  display: block;
+  width: 200px;
+
+  -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+  -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+  transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+.home li :hover {
+  font-size: 30px;
+  background: white;
+}
